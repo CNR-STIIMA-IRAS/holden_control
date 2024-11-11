@@ -1,0 +1,18 @@
+<?xml version = "1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="platform">
+
+  <xacro:arg name="fixed" default="true"/>
+
+  <xacro:include filename="$(find linear_guide)/urdf/linear_guide.xacro"/>
+
+  <xacro:if value="$(arg fixed)">
+    <link name="world"/>
+    <joint name="linear_base_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:if>
+
+
+</robot>

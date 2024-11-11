@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- Scara manipulator -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="platform">
+
+    <!-- Import scara urdf file -->
+    <xacro:include filename="$(find linear_guide)/urdf/linear_guide.urdf.xacro" />
+
+    <!-- Import scara materials file -->
+    <xacro:include filename="$(find linear_guide)/config/materials.urdf" />
+
+    <!-- Import scara ros2_control description -->
+    <xacro:include filename="$(find linear_guide)/urdf/ros2_control/linear_guide.ros2_control.urdf" />
+
+
+</robot>
