@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="aramis">
+
+  <xacro:arg name="length" default="1.56"/>
+  <xacro:arg name="min_lim" default="0.05"/>
+  <xacro:arg name="max_lim" default="1.50"/>
+  <xacro:arg name="vel_lim" default="0.5"/>
+  
+  
+  <!-- Base Link -->
+  <link name="guide_base_link">
+    <visual>
+      <geometry>
+        <box size="$(arg length) 0.1 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="$(arg length) 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+
+  <link name="guide_link">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.2"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.2"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+
+  <joint name = "guide_linear_joint" type="prismatic">
+    <parent link = "guide_base_link"/>
+    <child link = "guide_link"/>
+    <origin xyz = "${-$(arg length)/2} 0.0 0.0"/>
+    <limit effort="1000.0" lower="$(arg min_lim)" upper="$(arg max_lim)" velocity="$(arg vel_lim)"/>
+    <axis xyz = "1 0 0"/>
+    <dynamics damping="0.2" friction="0.1" />
+  </joint>
+
+
+
+</robot>
