@@ -21,6 +21,7 @@ def launch_setup(context):
   launch_controllers_path = PathJoinSubstitution([FindPackageShare('ur_linear_guide'), 'launch', 'linear_guide', 'linear_guide_control.launch.py'])
   launch_controllers = IncludeLaunchDescription(
     launch_description_source=PythonLaunchDescriptionSource(launch_controllers_path),
+    launch_arguments=[('fake', LaunchConfiguration("fake"))]
   )
 
   return [

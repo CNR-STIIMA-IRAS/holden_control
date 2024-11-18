@@ -53,15 +53,8 @@ def launch_setup(context):
     parameters=[moveit_config.to_dict()],
   )
 
-  robot_state_publisher_node = Node(
-    package="robot_state_publisher",
-    executable="robot_state_publisher",
-    output="screen",
-    parameters=[moveit_config.robot_description]
-  )
 
   return [
     rviz_node,
-    move_group_node,
-    robot_state_publisher_node
+    move_group_node
   ]

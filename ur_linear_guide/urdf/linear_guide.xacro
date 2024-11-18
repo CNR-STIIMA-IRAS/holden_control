@@ -3,7 +3,7 @@
 <xacro:macro name="linear_guide" params="
   length:=1.56
   min_lim:=0.05
-  max_lim:=1.50
+  max_lim:=1.0
   vel_lim:=0.5
   fake_hardware:=true
 ">
@@ -61,8 +61,8 @@
 
         <xacro:unless value="${fake_hardware}">
             <plugin>ethercat_driver/EthercatDriver</plugin>
-                <param name="master_id">0</param>
-                <param name="control_frequency">1000</param>
+            <param name="master_id">0</param>
+            <param name="control_frequency">500</param>
         </xacro:unless>
     </hardware>
 
