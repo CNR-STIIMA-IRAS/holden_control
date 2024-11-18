@@ -1,0 +1,4 @@
+# Default initial positions for platform's ros2_control fake system
+
+initial_positions:
+  guide_linear_joint: 0

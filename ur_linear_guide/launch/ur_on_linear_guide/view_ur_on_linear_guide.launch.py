@@ -7,7 +7,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import GroupAction
 from launch_ros.actions import PushRosNamespace
-# from nav2_common.launch import RewrittenYaml
 from ament_index_python.packages import get_package_share_directory
 from launch.conditions import IfCondition, UnlessCondition
 import yaml
@@ -18,15 +17,13 @@ def total_launcher(context: LaunchContext, *args, **kwargs):
     ns_str = "{}".format(ns_sub)
 
     rviz_file = os.path.join(get_package_share_directory('ur_linear_guide'), 'rviz',
-                             "visualize_linear.rviz")
+                             "ur_on_linear_guide.rviz")
 
     rviz_node = Node(package='rviz2',
         executable='rviz2',
         name='rviz2',
         arguments=['--display-config', rviz_file],
-        # namespace=ns_str,
-        condition=IfCondition(LaunchConfiguration('rviz'))
-    )
+        )
 
     node = namespace_nodes(ns_str)
 
@@ -53,15 +50,14 @@ def namespace_nodes(ns_str):
         ]
     )
 
-    state_publisher_node = Node(
+    robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='robot_state_publisher',
         output='screen',
         parameters=[{'robot_description': robot_description_content}],
-        # namespace=ns_str,
-    )
-    return [state_publisher_node, joint_state_publisher_node]
+        )
+    return [robot_state_publisher_node, joint_state_publisher_node]
 
 def generate_launch_description():
 
@@ -74,8 +70,6 @@ def generate_launch_description():
         'rviz',
         default_value='True'
     )
-
-
 
     nodes_to_start = [
         ns_launch_arg,

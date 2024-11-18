@@ -23,7 +23,7 @@
     keep_alive_count:=2
     ">
 
-    <ros2_control name="linear_${name}" type="system">
+    <ros2_control name="${name}_on_linear_guide" type="system">
       <hardware>
         <plugin>ethercat_driver/EthercatDriver</plugin>
         <param name="master_id">0</param>
@@ -40,7 +40,7 @@
               <param name="alias">0</param>
               <param name="position">0</param>
               <param name="mode_of_operation">8</param>
-              <param name="slave_config">$(find linear_guide)/config/elmo.yaml</param>
+              <param name="slave_config">$(find ur_linear_guide)/config/elmo.yaml</param>
           </ec_module>
       </joint>
     </ros2_control>

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ur_on_linear_guide_moveit_config</name>
+  <name>linear_guide_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the ur_on_linear_guide with the MoveIt Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the platform with the MoveIt Motion Planning Framework
   </description>
   <maintainer email="cesare.tonola@stiima.cnr.it">Cesare Tonola</maintainer>
 

@@ -5,10 +5,4 @@
     <!-- Import ur_on_linear_guide urdf file -->
     <xacro:include filename="$(find ur_linear_guide)/urdf/linear_ur.urdf.xacro" />
 
-    <!-- Import control_xacro -->
-    <xacro:include filename="ur_on_linear_guide.ros2_control.xacro" />
-
-
-    <xacro:ur_on_linear_guide_ros2_control name="FakeSystem" initial_positions_file="$(arg initial_positions_file)"/>
-
 </robot>

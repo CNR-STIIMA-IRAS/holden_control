@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ur_on_linear_guide" params="
+    fake_guide:=true
+    fake_ur:=true
+    parent_link:='world'
+    length:=1.56
+    min_lim:=0.05
+    max_lim:=1.50
+    vel_lim:=0.5
+    ur_type:=ur5
+    name:=ur
+    tf_prefix:=''
+    joint_limits_parameters_file:='$(find ur_description)/config/ur5/joint_limits.yaml'
+    kinematics_parameters_file:='$(find ur_description)/config/ur5/default_kinematics.yaml'
+    physical_parameters_file:='$(find ur_description)/config/ur5/physical_parameters.yaml'
+    visual_parameters_file:='$(find ur_description)/config/ur5/visual_parameters.yaml'
+    safety_limits:=false
+    safety_pos_margin:=0.15
+    safety_k_position:=20
+    generate_ros2_control_tag:=true
+    transmission_hw_interface:=hardware_interface/PositionJointInterface
+    fake_sensor_commands:=false
+    sim_gazebo:=false
+    sim_ignition:=false
+    headless_mode:=false
+    initial_positions:=${dict(shoulder_pan_joint=0.0,shoulder_lift_joint=-1.57,elbow_joint=0.0,wrist_1_joint=-1.57,wrist_2_joint=0.0,wrist_3_joint=0.0)}
+    use_tool_communication:=false
+    tool_voltage:=0
+    tool_parity:=0
+    tool_baud_rate:=115200
+    tool_stop_bits:=1
+    tool_rx_idle_chars:=1.5
+    tool_tx_idle_chars:=3.5
+    tool_device_name:=/tmp/ttyUR
+    tool_tcp_port:=54321
+    robot_ip:=0.0.0.0
+    script_filename:=to_be_filled_by_ur_robot_driver
+    output_recipe_filename:=to_be_filled_by_ur_robot_driver
+    input_recipe_filename:=to_be_filled_by_ur_robot_driver
+    reverse_port:=50001
+    script_sender_port:=50002
+    reverse_ip:=0.0.0.0
+    script_command_port:=50004
+    trajectory_port:=50003
+    non_blocking_read:=true
+    keep_alive_count:=2
+  ">
+
+    <link name="connection_link" />
+
+    <!-- linear_guide -->
+    <xacro:include filename="$(find ur_linear_guide)/urdf/linear_guide.xacro"/>
+    <xacro:linear_guide length="${length}" min_lim="${min_lim}" max_lim="${max_lim}" vel_lim="${vel_lim}" fake_hardware="${fake_guide}"/>
+
+    <!-- ur_robot -->
+    <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+    <xacro:property name="initial_positions_file" default="${initial_positions}"/>
+
+    <xacro:ur_robot
+      name="${name}"
+      tf_prefix="${tf_prefix}"
+      parent="connection_link"
+      joint_limits_parameters_file="${joint_limits_parameters_file}"
+      kinematics_parameters_file="${kinematics_parameters_file}"
+      physical_parameters_file="${physical_parameters_file}"
+      visual_parameters_file="${visual_parameters_file}"
+      safety_limits="${safety_limits}"
+      safety_pos_margin="${safety_pos_margin}"
+      safety_k_position="${safety_k_position}"
+      use_fake_hardware="${fake_ur}"
+      generate_ros2_control_tag="${generate_ros2_control_tag}"
+      transmission_hw_interface="${transmission_hw_interface}"
+      fake_sensor_commands="${fake_sensor_commands}"
+      sim_gazebo="${sim_gazebo}"
+      sim_ignition="${sim_ignition}"
+      headless_mode="${headless_mode}"
+      initial_positions="${xacro.load_yaml(initial_positions_file)}"
+      use_tool_communication="${use_tool_communication}"
+      tool_voltage="${tool_voltage}"
+      tool_parity="${tool_parity}"
+      tool_baud_rate="${tool_baud_rate}"
+      tool_stop_bits="${tool_stop_bits}"
+      tool_rx_idle_chars="${tool_rx_idle_chars}"
+      tool_tx_idle_chars="${tool_tx_idle_chars}"
+      tool_device_name="${tool_device_name}"
+      tool_tcp_port="${tool_tcp_port}"
+      robot_ip="${robot_ip}"
+      script_filename="${script_filename}"
+      output_recipe_filename="${output_recipe_filename}"
+      input_recipe_filename="${input_recipe_filename}"
+      reverse_port="${reverse_port}"
+      script_sender_port="${script_sender_port}"
+      reverse_ip="${reverse_ip}"
+      script_command_port="${script_command_port}"
+      trajectory_port="${trajectory_port}"
+      non_blocking_read="${non_blocking_read}"
+      keep_alive_count="${keep_alive_count}"
+     >
+     <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
+   </xacro:ur_robot>
+
+    <joint name="linear_base_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${parent_link}"/>
+      <child link="guide_base_link"/>
+    </joint>
+
+    <joint name="linear_tip_joint" type="fixed">
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <parent link="guide_link"/>
+      <child link="connection_link"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

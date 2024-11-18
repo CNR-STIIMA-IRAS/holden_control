@@ -1,18 +1,17 @@
 <?xml version = "1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="platform">
 
-  <xacro:arg name="fixed" default="true"/>
+  <xacro:arg name="fake" default="true"/>
 
+   <!-- linear guide linked to world -->
   <xacro:include filename="$(find ur_linear_guide)/urdf/linear_guide.xacro"/>
+  <xacro:linear_guide length="1.56" min_lim="0.05" max_lim="1.50" vel_lim="0.5" fake_hardware="$(arg fake)"/>
 
-  <xacro:if value="$(arg fixed)">
-    <link name="world"/>
-    <joint name="guide_base_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <parent link="world"/>
-      <child link="guide_base_link"/>
-    </joint>
-  </xacro:if>
-
-
+  <link name="world"/>
+  <joint name="guide_base_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="guide_base_link"/>
+  </joint>
+  
 </robot>

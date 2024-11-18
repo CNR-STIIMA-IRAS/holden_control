@@ -7,7 +7,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import GroupAction
 from launch_ros.actions import PushRosNamespace
-# from nav2_common.launch import RewrittenYaml
 from ament_index_python.packages import get_package_share_directory
 from launch.conditions import IfCondition, UnlessCondition
 import yaml
@@ -18,7 +17,7 @@ def total_launcher(context: LaunchContext, *args, **kwargs):
     ns_str = "{}".format(ns_sub)
 
     rviz_file = os.path.join(get_package_share_directory('ur_linear_guide'), 'rviz',
-                             "visualize_linear.rviz")
+                             "linear_guide.rviz")
 
     rviz_node = Node(package='rviz2',
         executable='rviz2',
@@ -48,7 +47,7 @@ def namespace_nodes(ns_str):
         [
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
-            PathJoinSubstitution([FindPackageShare('ur_linear_guide'), "urdf", 'linear_guide.config.urdf']),
+            PathJoinSubstitution([FindPackageShare('ur_linear_guide'), "urdf", 'linear_guide.urdf.xacro']),
             
         ]
     )
@@ -74,8 +73,6 @@ def generate_launch_description():
         'rviz',
         default_value='True'
     )
-
-
 
     nodes_to_start = [
         ns_launch_arg,

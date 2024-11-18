@@ -1,34 +1,3 @@
-# Copyright (c) 2021 PickNik, Inc.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#
-#    * Redistributions of source code must retain the above copyright
-#      notice, this list of conditions and the following disclaimer.
-#
-#    * Redistributions in binary form must reproduce the above copyright
-#      notice, this list of conditions and the following disclaimer in the
-#      documentation and/or other materials provided with the distribution.
-#
-#    * Neither the name of the {copyright_holder} nor the names of its
-#      contributors may be used to endorse or promote products derived from
-#      this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
-
-#
-# Author: Denis Stogl
-
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterFile
 from launch_ros.substitutions import FindPackageShare
@@ -50,7 +19,6 @@ def launch_setup(context, *args, **kwargs):
     runtime_config_package = LaunchConfiguration("runtime_config_package")
     controllers_file = LaunchConfiguration("controllers_file")
     description_control_package = LaunchConfiguration("description_control_package")
-    description_package = LaunchConfiguration("description_package")
     description_file = LaunchConfiguration("description_file")
     tf_prefix = LaunchConfiguration("tf_prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
@@ -76,17 +44,21 @@ def launch_setup(context, *args, **kwargs):
     script_sender_port = LaunchConfiguration("script_sender_port")
     trajectory_port = LaunchConfiguration("trajectory_port")
 
+    description_package = "ur_linear_guide"
+    description_file = "linear_ur.urdf.xacro"
+    robot_ip = "0.0.0"
+
     joint_limit_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "joint_limits.yaml"]
+        [FindPackageShare(description_package), "urdf", ur_type, "joint_limits.yaml"]
     )
     kinematics_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "default_kinematics.yaml"]
+        [FindPackageShare(description_package), "urdf", ur_type, "default_kinematics.yaml"]
     )
     physical_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "physical_parameters.yaml"]
+        [FindPackageShare(description_package), "urdf", ur_type, "physical_parameters.yaml"]
     )
     visual_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "visual_parameters.yaml"]
+        [FindPackageShare(description_package), "urdf", ur_type, "visual_parameters.yaml"]
     )
     script_filename = PathJoinSubstitution(
         [FindPackageShare("ur_client_library"), "resources", "external_control.urscript"]

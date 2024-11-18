@@ -3,5 +3,5 @@ from moveit_configs_utils.launches import generate_moveit_rviz_launch
 
 
 def generate_launch_description():
-    moveit_config = MoveItConfigsBuilder("ur_on_linear_guide", package_name="ur_on_linear_guide_moveit_config").to_moveit_configs()
+    moveit_config = MoveItConfigsBuilder("platform", package_name="linear_guide_moveit_config").to_moveit_configs()
     return generate_moveit_rviz_launch(moveit_config)

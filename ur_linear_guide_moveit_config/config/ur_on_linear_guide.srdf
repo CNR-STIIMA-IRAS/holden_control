@@ -9,22 +9,25 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="ur">
-        <chain base_link="base_link" tip_link="tool0"/>
-    </group>
     <group name="linear_guide">
         <chain base_link="guide_base_link" tip_link="connection_link"/>
+    </group>
+    <group name="ur">
+        <chain base_link="base_link" tip_link="tool0"/>
     </group>
     <group name="ur_on_linear_guide">
         <chain base_link="guide_base_link" tip_link="tool0"/>
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="home" group="linear_guide">
+        <joint name="guide_linear_joint" value="0.05"/>
+    </group_state>
     <group_state name="home" group="ur">
         <joint name="elbow_joint" value="1.57"/>
         <joint name="shoulder_lift_joint" value="-1.57"/>
         <joint name="shoulder_pan_joint" value="-1.57"/>
         <joint name="wrist_1_joint" value="0"/>
-        <joint name="wrist_2_joint" value="1.57"/>
+        <joint name="wrist_2_joint" value="0"/>
         <joint name="wrist_3_joint" value="0"/>
     </group_state>
     <group_state name="home" group="ur_on_linear_guide">
@@ -33,11 +36,8 @@
         <joint name="shoulder_lift_joint" value="-1.57"/>
         <joint name="shoulder_pan_joint" value="-1.57"/>
         <joint name="wrist_1_joint" value="0"/>
-        <joint name="wrist_2_joint" value="1.57"/>
+        <joint name="wrist_2_joint" value="0"/>
         <joint name="wrist_3_joint" value="0"/>
-    </group_state>
-    <group_state name="home" group="linear_guide">
-        <joint name="guide_linear_joint" value="0.05"/>
     </group_state>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="base_link_inertia" link2="guide_base_link" reason="Never"/>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="platform">
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+
+    <!-- Import platform urdf file -->
+    <xacro:include filename="$(find ur_linear_guide)/urdf/linear_guide.urdf.xacro" />
+</robot>

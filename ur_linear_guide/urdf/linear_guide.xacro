@@ -1,22 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="aramis">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:macro name="linear_guide" params="
+  length:=1.56
+  min_lim:=0.05
+  max_lim:=1.50
+  vel_lim:=0.5
+  fake_hardware:=true
+">
 
-  <xacro:arg name="length" default="1.56"/>
-  <xacro:arg name="min_lim" default="0.05"/>
-  <xacro:arg name="max_lim" default="1.50"/>
-  <xacro:arg name="vel_lim" default="0.5"/>
-  
-  
-  <!-- Base Link -->
+  <!-- Link -->
   <link name="guide_base_link">
     <visual>
       <geometry>
-        <box size="$(arg length) 0.1 0.1"/>
+        <box size="${length} 0.1 0.1"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <box size="$(arg length) 0.1 0.1"/>
+        <box size="${length} 0.1 0.1"/>
       </geometry>
     </collision>
     <inertial>
@@ -45,12 +46,44 @@
   <joint name = "guide_linear_joint" type="prismatic">
     <parent link = "guide_base_link"/>
     <child link = "guide_link"/>
-    <origin xyz = "${-$(arg length)/2} 0.0 0.0"/>
-    <limit effort="1000.0" lower="$(arg min_lim)" upper="$(arg max_lim)" velocity="$(arg vel_lim)"/>
+    <origin xyz = "${-length/2} 0.0 0.0"/>
+    <limit effort="1000.0" lower="${min_lim}" upper="${max_lim}" velocity="${vel_lim}"/>
     <axis xyz = "1 0 0"/>
     <dynamics damping="0.2" friction="0.1" />
   </joint>
 
+  <!-- ros2_control configuration -->
+  <ros2_control name="linear_guide_ros2_control" type="system">
+    <hardware>
+        <xacro:if value="${fake_hardware}">
+            <plugin>mock_components/GenericSystem</plugin>
+        </xacro:if>
 
+        <xacro:unless value="${fake_hardware}">
+            <plugin>ethercat_driver/EthercatDriver</plugin>
+                <param name="master_id">0</param>
+                <param name="control_frequency">1000</param>
+        </xacro:unless>
+    </hardware>
 
+    <joint name="guide_linear_joint">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+        <command_interface name="position"/>
+               <!-- <command_interface name="reset_fault"/> -->
+
+        <xacro:unless value="${fake_hardware}">
+            <ec_module name="ELMO">
+                <plugin>ethercat_generic_plugins/EcCiA402Drive</plugin>
+                <param name="alias">0</param>
+                <param name="position">0</param>
+                <param name="mode_of_operation">8</param>
+                <param name="slave_config">$(find ur_linear_guide)/config/elmo.yaml</param>
+            </ec_module>
+        </xacro:unless>
+    </joint>
+    
+</ros2_control>
+  </xacro:macro>
 </robot>
