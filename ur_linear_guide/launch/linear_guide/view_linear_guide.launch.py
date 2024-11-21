@@ -46,9 +46,9 @@ def namespace_nodes(ns_str):
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name='xacro')]),
-            ' ',
+            " ",
             PathJoinSubstitution([FindPackageShare('ur_linear_guide'), "urdf", 'linear_guide.urdf.xacro']),
-            
+            " fake:='", LaunchConfiguration("fake").perform(context),"'"           
         ]
     )
 

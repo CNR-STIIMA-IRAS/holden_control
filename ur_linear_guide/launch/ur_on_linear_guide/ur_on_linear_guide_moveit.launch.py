@@ -7,13 +7,6 @@ from launch_ros.actions import Node
 
 from moveit_configs_utils import MoveItConfigsBuilder
 
-def generate_launch_description():
-  launch_args = [
-    DeclareLaunchArgument(name="fake_guide", default_value="true", description="use fake hardware for the linear guide"),
-    DeclareLaunchArgument(name="fake_ur", default_value="true", description="use fake hardware for the robot"),
-  ]
-  return LaunchDescription(launch_args + [OpaqueFunction(function=launch_setup)])
-
 def launch_setup(context):
 
   rviz_file = PathJoinSubstitution([FindPackageShare("ur_linear_guide"), "rviz", "ur_on_linear_guide.rviz"]).perform(context)
@@ -55,15 +48,14 @@ def launch_setup(context):
     parameters=[moveit_config.to_dict()],
   )
 
-  robot_state_publisher_node = Node(
-    package="robot_state_publisher",
-    executable="robot_state_publisher",
-    output="screen",
-    parameters=[moveit_config.robot_description]
-  )
-
   return [
     rviz_node,
     move_group_node,
-    robot_state_publisher_node
   ]
+
+def generate_launch_description():
+  launch_args = [
+    DeclareLaunchArgument(name="fake_guide", default_value="true", description="use fake hardware for the linear guide"),
+    DeclareLaunchArgument(name="fake_ur", default_value="true", description="use fake hardware for the robot"),
+  ]
+  return LaunchDescription(launch_args + [OpaqueFunction(function=launch_setup)])

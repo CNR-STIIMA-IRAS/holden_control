@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur_on_linear_guide">
 
+    <!-- args -->
     <xacro:arg name="fake_guide" default="true"/>
     <xacro:arg name="fake_ur" default="true"/>
     
-    <xacro:arg name="length" default="1.56"/>
-    <xacro:arg name="min_lim" default="0.05"/>
-    <xacro:arg name="max_lim" default="1.50"/>
-    <xacro:arg name="vel_lim" default="0.5"/>
-    <xacro:arg name="ur_type" default="ur5"/>
-    <xacro:arg name="name" default="ur"/>
-    <xacro:arg name="tf_prefix" default=""/>
-    <xacro:arg name="joint_limit_params" default="$(find ur_linear_guide)/urdf/joint_limits.yaml"/>
-    <xacro:arg name="kinematics_params" default="$(find ur_linear_guide)/urdf/default_kinematics.yaml"/>
-    <xacro:arg name="physical_params" default="$(find ur_linear_guide)/urdf/physical_parameters.yaml"/>
-    <xacro:arg name="visual_params" default="$(find ur_linear_guide)/urdf/visual_parameters.yaml"/>
-    <xacro:arg name="initial_positions_file" default="$(find ur_linear_guide)/urdf/initial_positions.yaml"/>
-    <xacro:arg name="transmission_hw_interface" default=""/>
-    <xacro:arg name="safety_limits" default="false"/>
-    <xacro:arg name="safety_pos_margin" default="0.15"/>
-    <xacro:arg name="safety_k_position" default="20"/>
-    <xacro:arg name="headless_mode" default="false"/>
-    <xacro:arg name="robot_ip" default="0.0.0.0"/>
-    <xacro:arg name="script_filename" default=""/>
-    <xacro:arg name="output_recipe_filename" default=""/>
-    <xacro:arg name="input_recipe_filename" default=""/>
-    <xacro:arg name="reverse_ip" default="0.0.0.0"/>
-    <xacro:arg name="script_command_port" default="50004"/>
-    <xacro:arg name="reverse_port" default="50001"/>
-    <xacro:arg name="script_sender_port" default="50002"/>
-    <xacro:arg name="trajectory_port" default="50003"/>
-    <xacro:arg name="use_tool_communication" default="false"/>
-    <xacro:arg name="tool_voltage" default="0"/>
-    <xacro:arg name="tool_parity" default="0"/>
-    <xacro:arg name="tool_baud_rate" default="115200"/>
-    <xacro:arg name="tool_stop_bits" default="1"/>
-    <xacro:arg name="tool_rx_idle_chars" default="1.5"/>
-    <xacro:arg name="tool_tx_idle_chars" default="3.5"/>
-    <xacro:arg name="tool_device_name" default="/tmp/ttyUR"/>
-    <xacro:arg name="tool_tcp_port" default="54321"/>
-    <xacro:arg name="use_fake_hardware" default="true"/>
-    <xacro:arg name="fake_sensor_commands" default="false"/>
-    <xacro:arg name="sim_gazebo" default="false"/>
-    <xacro:arg name="sim_ignition" default="false"/>
-    <xacro:arg name="simulation_controllers" default=""/>
-    <xacro:arg name="non_blocking_read" default="true"/>
-    <xacro:arg name="robot_receive_timeout" default="0.04"/>
-    <xacro:arg name="generate_ros2_control" default="true"/>
-    <xacro:arg name="keep_alive_count" default="2"/>
+    <!-- properties -->
 
+    <!-- linear guide -->
+    <xacro:property name="length" value="1.56"/>
+    <xacro:property name="min_lim" value="0.0"/>
+    <xacro:property name="max_lim" value="1.0"/>
+    <xacro:property name="vel_lim" value="0.5"/>
+
+    <!-- ur -->
+    <xacro:property name="ur_type" value="ur5"/>
+    <xacro:property name="name" value="ur"/>
+    <xacro:property name="tf_prefix" value=""/>
+    <xacro:property name="joint_limit_params" value="$(find ur_linear_guide)/config/ur5/joint_limits.yaml"/>
+    <xacro:property name="kinematics_params" value="$(find ur_linear_guide)/config/ur5/default_kinematics.yaml"/>
+    <xacro:property name="physical_params" value="$(find ur_linear_guide)/config/ur5/physical_parameters.yaml"/>
+    <xacro:property name="visual_params" value="$(find ur_linear_guide)/config/ur5/visual_parameters.yaml"/>
+    <xacro:property name="initial_positions_file" value="$(find ur_linear_guide)/config/ur5/initial_positions.yaml"/>
+    <xacro:property name="generate_ros2_control" value="true"/>
+    <xacro:property name="transmission_hw_interface" value=""/>
+    <xacro:property name="safety_limits" value="false"/>
+    <xacro:property name="safety_pos_margin" value="0.15"/>
+    <xacro:property name="safety_k_position" value="20"/>
+    <xacro:property name="headless_mode" value="false"/>
+    <xacro:property name="robot_ip" value="0.0.0.0"/>
+    <xacro:property name="script_filename" value=""/>
+    <xacro:property name="output_recipe_filename" value=""/>
+    <xacro:property name="input_recipe_filename" value=""/>
+    <xacro:property name="reverse_ip" value="0.0.0.0"/>
+    <xacro:property name="script_command_port" value="50004"/>
+    <xacro:property name="reverse_port" value="50001"/>
+    <xacro:property name="script_sender_port" value="50002"/>
+    <xacro:property name="trajectory_port" value="50003"/>
+    <xacro:property name="use_tool_communication" value="false"/>
+    <xacro:property name="tool_voltage" value="0"/>
+    <xacro:property name="tool_parity" value="0"/>
+    <xacro:property name="tool_baud_rate" value="115200"/>
+    <xacro:property name="tool_stop_bits" value="1"/>
+    <xacro:property name="tool_rx_idle_chars" value="1.5"/>
+    <xacro:property name="tool_tx_idle_chars" value="3.5"/>
+    <xacro:property name="tool_device_name" value="/tmp/ttyUR"/>
+    <xacro:property name="tool_tcp_port" value="54321"/>
+    <xacro:property name="fake_sensor_commands" value="false"/>
+    <xacro:property name="sim_gazebo" value="false"/>
+    <xacro:property name="sim_ignition" value="false"/>
+    <xacro:property name="simulation_controllers" value=""/>
+    <xacro:property name="non_blocking_read" value="true"/>
+    <xacro:property name="robot_receive_timeout" value="0.04"/>
+    <xacro:property name="keep_alive_count" value="2"/>
 
    <link name="world" />
 
@@ -57,48 +61,49 @@
    <xacro:ur_on_linear_guide
       fake_guide="$(arg fake_guide)"
       fake_ur="$(arg fake_ur)"
+      
       parent_link="world"
-      length="$(arg length)"
-      min_lim="$(arg min_lim)"
-      max_lim="$(arg max_lim)"
-      vel_lim="$(arg vel_lim)"
-      ur_type="$(arg ur_type)"
-      name="$(arg name)"
-      tf_prefix="$(arg tf_prefix)"
-      joint_limits_parameters_file="$(arg joint_limit_params)"
-      kinematics_parameters_file="$(arg kinematics_params)"
-      physical_parameters_file="$(arg physical_params)"
-      visual_parameters_file="$(arg visual_params)"
-      safety_limits="$(arg safety_limits)"
-      safety_pos_margin="$(arg safety_pos_margin)"
-      safety_k_position="$(arg safety_k_position)"
-      generate_ros2_control_tag="$(arg generate_ros2_control)"
-      transmission_hw_interface="$(arg transmission_hw_interface)"
-      fake_sensor_commands="$(arg fake_sensor_commands)"
-      sim_gazebo="$(arg sim_gazebo)"
-      sim_ignition="$(arg sim_ignition)"
-      headless_mode="$(arg headless_mode)"
-      initial_positions="$(arg initial_positions_file)"
-      use_tool_communication="$(arg use_tool_communication)"
-      tool_voltage="$(arg tool_voltage)"
-      tool_parity="$(arg tool_parity)"
-      tool_baud_rate="$(arg tool_baud_rate)"
-      tool_stop_bits="$(arg tool_stop_bits)"
-      tool_rx_idle_chars="$(arg tool_rx_idle_chars)"
-      tool_tx_idle_chars="$(arg tool_tx_idle_chars)"
-      tool_device_name="$(arg tool_device_name)"
-      tool_tcp_port="$(arg tool_tcp_port)"
-      robot_ip="$(arg robot_ip)"
-      script_filename="$(arg script_filename)"
-      output_recipe_filename="$(arg output_recipe_filename)"
-      input_recipe_filename="$(arg input_recipe_filename)"
-      reverse_port="$(arg reverse_port)"
-      script_sender_port="$(arg script_sender_port)"
-      reverse_ip="$(arg reverse_ip)"
-      script_command_port="$(arg script_command_port)"
-      trajectory_port="$(arg trajectory_port)"
-      non_blocking_read="$(arg non_blocking_read)"
-      keep_alive_count="$(arg keep_alive_count)"
+      length="${length}"
+      min_lim="${min_lim}"
+      max_lim="${max_lim}"
+      vel_lim="${vel_lim}"
+      ur_type="${ur_type}"
+      name="${name}"
+      tf_prefix="${tf_prefix}"
+      joint_limits_parameters_file="${joint_limit_params}"
+      kinematics_parameters_file="${kinematics_params}"
+      physical_parameters_file="${physical_params}"
+      visual_parameters_file="${visual_params}"
+      safety_limits="${safety_limits}"
+      safety_pos_margin="${safety_pos_margin}"
+      safety_k_position="${safety_k_position}"
+      generate_ros2_control_tag="${generate_ros2_control}"
+      transmission_hw_interface="${transmission_hw_interface}"
+      fake_sensor_commands="${fake_sensor_commands}"
+      sim_gazebo="${sim_gazebo}"
+      sim_ignition="${sim_ignition}"
+      headless_mode="${headless_mode}"
+      initial_positions="${initial_positions_file}"
+      use_tool_communication="${use_tool_communication}"
+      tool_voltage="${tool_voltage}"
+      tool_parity="${tool_parity}"
+      tool_baud_rate="${tool_baud_rate}"
+      tool_stop_bits="${tool_stop_bits}"
+      tool_rx_idle_chars="${tool_rx_idle_chars}"
+      tool_tx_idle_chars="${tool_tx_idle_chars}"
+      tool_device_name="${tool_device_name}"
+      tool_tcp_port="${tool_tcp_port}"
+      robot_ip="${robot_ip}"
+      script_filename="${script_filename}"
+      output_recipe_filename="${output_recipe_filename}"
+      input_recipe_filename="${input_recipe_filename}"
+      reverse_port="${reverse_port}"
+      script_sender_port="${script_sender_port}"
+      reverse_ip="${reverse_ip}"
+      script_command_port="${script_command_port}"
+      trajectory_port="${trajectory_port}"
+      non_blocking_read="${non_blocking_read}"
+      keep_alive_count="${keep_alive_count}"
     />
   
 </robot>

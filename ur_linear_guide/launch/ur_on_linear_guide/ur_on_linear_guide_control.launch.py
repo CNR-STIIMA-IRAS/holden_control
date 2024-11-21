@@ -1,6 +1,6 @@
 from launch.launch_description import LaunchDescription
-from launch.actions import RegisterEventHandler, TimerAction, DeclareLaunchArgument
-from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch.actions import RegisterEventHandler, TimerAction, DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, Command, FindExecutable
 
 from launch.event_handlers import OnExecutionComplete
 
@@ -9,18 +9,18 @@ from launch_ros.actions import Node
 
 from launch.conditions import IfCondition, UnlessCondition
 
-description_package = "ur_linear_guide"
-description_file = "linear_ur.urdf.xacro"
+def launch_setup(context, *args, **kwargs):
 
-def generate_launch_description():
-
-  launch_args = [
-    DeclareLaunchArgument(name="fake", default_value="true", description="use fake hardware for the robot"),
-  ]
-
-  launch_args = [
-    DeclareLaunchArgument(name="robot_ip", default_value="192.168.1.102", description="robot IP address"),
-  ]
+  robot_description_content = Command(
+      [
+          PathJoinSubstitution([FindExecutable(name='xacro')]),
+          " ",
+          PathJoinSubstitution([FindPackageShare("ur_linear_guide"), "urdf", 'linear_ur.urdf.xacro']),
+          " fake_guide:='", LaunchConfiguration("fake_guide").perform(context),"'",
+          " fake_ur:='", LaunchConfiguration("fake_ur").perform(context),"'"
+      ]
+  )
+  robot_description = {'robot_description': robot_description_content}
 
   controllers_config = PathJoinSubstitution([FindPackageShare("ur_linear_guide"),
    "config", "ur_on_linear_guide_controllers.yaml"])
@@ -28,9 +28,16 @@ def generate_launch_description():
   controller_manager_node = Node(
     package="controller_manager",
     executable="ros2_control_node",
-    parameters=[controllers_config],
+    parameters=[controllers_config,robot_description],
     output="screen",
-    remappings=[("/controller_manager/robot_description","/robot_description")],
+    # remappings=[("/controller_manager/robot_description","/robot_description")],
+  )
+
+  robot_state_publisher_node = Node(
+    package="robot_state_publisher",
+    executable="robot_state_publisher",
+    output="screen",
+    parameters=[robot_description]
   )
 
   ur_on_linear_guide_controller_spawner = Node(
@@ -69,12 +76,12 @@ def generate_launch_description():
     package="ur_robot_driver",
     executable="ur_ros2_control_node",
     output="screen",
-    condition=UnlessCondition(LaunchConfiguration("fake")),
+    condition=UnlessCondition(LaunchConfiguration("fake_ur")),
   )
 
   dashboard_client_node = Node(
     package="ur_robot_driver",
-    condition=UnlessCondition(LaunchConfiguration("fake")),
+    condition=UnlessCondition(LaunchConfiguration("fake_ur")),
     executable="dashboard_client",
     name="dashboard_client",
     output="screen",
@@ -123,15 +130,29 @@ def generate_launch_description():
     executable="urscript_interface",
     parameters=[{"robot_ip": LaunchConfiguration("robot_ip")}],
     output="screen",
-    condition=UnlessCondition(LaunchConfiguration("fake")),
+    condition=UnlessCondition(LaunchConfiguration("fake_ur")),
   )   
 
-  ld = LaunchDescription(launch_args)
+  what_to_launch = [
+    controller_manager_node,
+    joint_state_broadcaster_spawner,
+    robot_state_publisher_node,
+    ur_controller_spawner,
+    linear_guide_controller_spawner,
+    ur_on_linear_guide_controller_spawner,
+    #ur_control_node,
+    #dashboard_client_node,
+    #surscript_interface
+    ]
+  
+  return what_to_launch
 
-  ld.add_action(controller_manager_node)
-  ld.add_action(joint_state_broadcaster_spawner)
-  ld.add_action(ur_controller_spawner)
-  ld.add_action(linear_guide_controller_spawner)
-  ld.add_action(ur_on_linear_guide_controller_spawner)
+def generate_launch_description():
+  launch_args = []
+  launch_args.append(DeclareLaunchArgument(name="fake_guide", default_value="true", description="use fake hardware for the linear guide"))
+  launch_args.append(DeclareLaunchArgument(name="fake_ur", default_value="true", description="use fake hardware for the ur"))
+  launch_args.append(DeclareLaunchArgument(name="robot_ip", default_value="192.168.1.102", description="robot IP address"))
+
+  ld = LaunchDescription(launch_args+[OpaqueFunction(function=launch_setup)])
 
   return ld

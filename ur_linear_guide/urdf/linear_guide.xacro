@@ -46,7 +46,7 @@
   <joint name = "guide_linear_joint" type="prismatic">
     <parent link = "guide_base_link"/>
     <child link = "guide_link"/>
-    <origin xyz = "${-length/2} 0.0 0.0"/>
+    <origin xyz = "${length/2 - max_lim} 0.0 0.0"/>
     <limit effort="1000.0" lower="${min_lim}" upper="${max_lim}" velocity="${vel_lim}"/>
     <axis xyz = "1 0 0"/>
     <dynamics damping="0.2" friction="0.1" />

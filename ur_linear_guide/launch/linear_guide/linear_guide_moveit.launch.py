@@ -53,7 +53,6 @@ def launch_setup(context):
     parameters=[moveit_config.to_dict()],
   )
 
-
   return [
     rviz_node,
     move_group_node

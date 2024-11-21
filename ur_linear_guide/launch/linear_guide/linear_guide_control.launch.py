@@ -7,16 +7,13 @@ from launch.event_handlers import OnExecutionComplete
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 
-
 def launch_setup(context, *args, **kwargs):
-  fake = LaunchConfiguration("fake")
-
   robot_description_content = Command(
       [
           PathJoinSubstitution([FindExecutable(name='xacro')]),
           " ",
           PathJoinSubstitution([FindPackageShare("ur_linear_guide"), "urdf", 'linear_guide.urdf.xacro']),
-          " fake:='", fake.perform(context),"'"
+          " fake:='", LaunchConfiguration("fake").perform(context),"'"
       ]
   )
   robot_description = {'robot_description': robot_description_content}
