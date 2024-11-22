@@ -17,9 +17,9 @@ def launch_setup(context, *args, **kwargs):
           " ",
           PathJoinSubstitution([FindPackageShare("ur_linear_guide"), "urdf", 'linear_ur.urdf.xacro']),
           " fake_guide:='", LaunchConfiguration("fake_guide").perform(context),"'",
-          " fake_ur:='", LaunchConfiguration("fake_ur").perform(context),"'"
-      ]
-  )
+          " fake_ur:='", LaunchConfiguration("fake_ur").perform(context),"'",
+      ])
+
   robot_description = {'robot_description': robot_description_content}
 
   controllers_config = PathJoinSubstitution([FindPackageShare("ur_linear_guide"),
@@ -30,6 +30,8 @@ def launch_setup(context, *args, **kwargs):
     executable="ros2_control_node",
     parameters=[controllers_config,robot_description],
     output="screen",
+    # prefix=['gdb -ex start --args'],
+    # arguments=["--ros-args", "--log-level", "debug"],
     # remappings=[("/controller_manager/robot_description","/robot_description")],
   )
 
@@ -44,7 +46,7 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["ur_on_linear_guide_controller", 
-               "--controller-manager", "/controller_manager"],
+               "--controller-manager", "/controller_manager", "--inactive"],
     output='screen',
   )
 
@@ -60,8 +62,29 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["ur_controller", 
-               "--controller-manager", "/controller_manager", "--inactive"],
+               "--controller-manager", "/controller_manager", ],
     output='screen',
+  )
+
+  controller_stopper_node = Node(
+      package="ur_robot_driver",
+      executable="controller_stopper_node",
+      name="controller_stopper",
+      output="screen",
+      emulate_tty=True,
+      condition=UnlessCondition(LaunchConfiguration("fake_ur").perform(context)),
+      parameters=[
+          {"headless_mode": False},
+          {"joint_controller_active": True},
+          {
+              "consistent_controllers": [
+                  # "io_and_status_controller",
+                  # "force_torque_sensor_broadcaster",
+                  "joint_state_broadcaster",
+                  # "speed_scaling_state_broadcaster",
+              ]
+          },
+      ],
   )
 
   joint_state_broadcaster_spawner = Node(
@@ -104,27 +127,6 @@ def launch_setup(context, *args, **kwargs):
 #     ],
 #   )
 
-  # controller_stopper_node = Node(
-  #     package="ur_robot_driver",
-  #     executable="controller_stopper_node",
-  #     name="controller_stopper",
-  #     output="screen",
-  #     emulate_tty=True,
-  #     condition=UnlessCondition(use_fake_hardware),
-  #     parameters=[
-  #         {"headless_mode": headless_mode},
-  #         {"joint_controller_active": activate_joint_controller},
-  #         {
-  #             "consistent_controllers": [
-  #                 "io_and_status_controller",
-  #                 "force_torque_sensor_broadcaster",
-  #                 "joint_state_broadcaster",
-  #                 "speed_scaling_state_broadcaster",
-  #             ]
-  #         },
-  #     ],
-  # )
-
   urscript_interface = Node(
     package="ur_robot_driver",
     executable="urscript_interface",
@@ -140,9 +142,10 @@ def launch_setup(context, *args, **kwargs):
     ur_controller_spawner,
     linear_guide_controller_spawner,
     ur_on_linear_guide_controller_spawner,
-    #ur_control_node,
-    #dashboard_client_node,
-    #surscript_interface
+    #controller_stopper_node
+    ur_control_node,
+    dashboard_client_node,
+    urscript_interface
     ]
   
   return what_to_launch

@@ -15,7 +15,7 @@
 
     <!-- ur -->
     <xacro:property name="ur_type" value="ur5"/>
-    <xacro:property name="name" value="ur"/>
+    <xacro:property name="name" value="ur5"/>
     <xacro:property name="tf_prefix" value=""/>
     <xacro:property name="joint_limit_params" value="$(find ur_linear_guide)/config/ur5/joint_limits.yaml"/>
     <xacro:property name="kinematics_params" value="$(find ur_linear_guide)/config/ur5/default_kinematics.yaml"/>
@@ -28,10 +28,10 @@
     <xacro:property name="safety_pos_margin" value="0.15"/>
     <xacro:property name="safety_k_position" value="20"/>
     <xacro:property name="headless_mode" value="false"/>
-    <xacro:property name="robot_ip" value="0.0.0.0"/>
-    <xacro:property name="script_filename" value=""/>
-    <xacro:property name="output_recipe_filename" value=""/>
-    <xacro:property name="input_recipe_filename" value=""/>
+    <xacro:property name="robot_ip" value="192.168.1.102"/>
+    <xacro:property name="script_filename" value="$(find ur_client_library)/resources/external_control.urscript"/>
+    <xacro:property name="input_recipe_filename" value="$(find ur_robot_driver)/resources/rtde_input_recipe.txt"/>
+    <xacro:property name="output_recipe_filename" value="$(find ur_robot_driver)/resources/rtde_output_recipe.txt"/>
     <xacro:property name="reverse_ip" value="0.0.0.0"/>
     <xacro:property name="script_command_port" value="50004"/>
     <xacro:property name="reverse_port" value="50001"/>

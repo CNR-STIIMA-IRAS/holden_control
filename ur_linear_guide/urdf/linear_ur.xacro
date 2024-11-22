@@ -10,7 +10,7 @@
     max_lim:=1.0
     vel_lim:=0.5
     ur_type:=ur5
-    name:=ur
+    name:=ur5
     tf_prefix:=''
     joint_limits_parameters_file:='$(find ur_description)/config/ur5/joint_limits.yaml'
     kinematics_parameters_file:='$(find ur_description)/config/ur5/default_kinematics.yaml'
@@ -35,7 +35,7 @@
     tool_tx_idle_chars:=3.5
     tool_device_name:=/tmp/ttyUR
     tool_tcp_port:=54321
-    robot_ip:=0.0.0.0
+    robot_ip:=192.168.1.102
     script_filename:=to_be_filled_by_ur_robot_driver
     output_recipe_filename:=to_be_filled_by_ur_robot_driver
     input_recipe_filename:=to_be_filled_by_ur_robot_driver
