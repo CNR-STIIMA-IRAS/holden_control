@@ -62,7 +62,31 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["ur_controller", 
-               "--controller-manager", "/controller_manager", ],
+               "--controller-manager", "/controller_manager", "--inactive"],
+    output='screen',
+  )
+
+  ur_on_linear_guide_scaled_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["ur_on_linear_guide_scaled_controller", 
+               "--controller-manager", "/controller_manager"],
+    output='screen',
+  )
+
+  linear_guide_scaled_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["linear_guide_scaled_controller", 
+               "--controller-manager", "/controller_manager", "--inactive"],
+    output='screen',
+  )
+
+  ur_scaled_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["ur_scaled_controller", 
+               "--controller-manager", "/controller_manager", "--inactive"],
     output='screen',
   )
 
@@ -142,6 +166,9 @@ def launch_setup(context, *args, **kwargs):
     ur_controller_spawner,
     linear_guide_controller_spawner,
     ur_on_linear_guide_controller_spawner,
+    ur_on_linear_guide_scaled_controller_spawner,
+    linear_guide_scaled_controller_spawner,
+    ur_scaled_controller_spawner,
     #controller_stopper_node
     ur_control_node,
     dashboard_client_node,

@@ -33,6 +33,14 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["linear_guide_controller", 
+               "--controller-manager", "/controller_manager", "--inactive"],
+    output='screen',
+  )
+
+  linear_guide_scaled_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["linear_guide_scaled_controller", 
                "--controller-manager", "/controller_manager"],
     output='screen',
   )
@@ -54,6 +62,7 @@ def launch_setup(context, *args, **kwargs):
 
   what_to_launch = [
     controller_manager_node,
+    linear_guide_scaled_controller_spawner,
     joint_state_broadcaster_spawner,
     linear_guide_controller_spawner,
     robot_state_publisher_node,

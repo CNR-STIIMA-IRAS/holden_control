@@ -6,6 +6,9 @@ controller_manager:
     linear_guide_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    linear_guide_scaled_controller:
+      type: scaled_fjt_controller/ScaledFjtController
+
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
@@ -18,3 +21,17 @@ linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+
+linear_guide_scaled_controller:
+  ros__parameters:
+    joints: 
+      - guide_linear_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    open_loop_control: true
+    constraints:
+      goal_time: 0.0
+    speed_ovr_topics: ["linear_guide_speed_ovr","safe_ovr"]

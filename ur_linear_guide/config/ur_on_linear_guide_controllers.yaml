@@ -6,14 +6,20 @@ controller_manager:
     linear_guide_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    linear_guide_scaled_controller:
+      type: scaled_fjt_controller/ScaledFjtController
 
     ur_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    ur_scaled_controller:
+      type: scaled_fjt_controller/ScaledFjtController
 
     ur_on_linear_guide_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
+    ur_on_linear_guide_scaled_controller:
+      type: scaled_fjt_controller/ScaledFjtController
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -27,6 +33,21 @@ linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+
+linear_guide_scaled_controller:
+  ros__parameters:
+    joints: 
+      - guide_linear_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    open_loop_control: true
+    constraints:
+      goal_time: 0.0
+    speed_ovr_topics: ["linear_guide_speed_ovr","safe_ovr"]
+
 ur_controller:
   ros__parameters:
     joints:
@@ -41,6 +62,26 @@ ur_controller:
     state_interfaces:
       - position
       - velocity
+
+ur_scaled_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    open_loop_control: true
+    constraints:
+      goal_time: 0.0
+    speed_ovr_topics: ["ur_speed_ovr","safe_ovr"]
+
 ur_on_linear_guide_controller:
   ros__parameters:
     joints:
@@ -56,3 +97,23 @@ ur_on_linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+
+ur_on_linear_guide_scaled_controller:
+  ros__parameters:
+    joints:
+      - guide_linear_joint
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    open_loop_control: true
+    constraints:
+      goal_time: 0.0
+    speed_ovr_topics: ["ur_on_linear_guide_speed_ovr","safe_ovr"]
