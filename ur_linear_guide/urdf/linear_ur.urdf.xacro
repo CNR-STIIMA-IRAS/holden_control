@@ -4,7 +4,8 @@
     <!-- args -->
     <xacro:arg name="fake_guide" default="true"/>
     <xacro:arg name="fake_ur" default="true"/>
-    
+    <xacro:arg name="fake_robotiq" default="true"/>
+
     <!-- properties -->
 
     <!-- linear guide -->
@@ -106,4 +107,10 @@
       keep_alive_count="${keep_alive_count}"
     />
   
+  <!-- robotiq gripper -->
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" parent="tool0" use_fake_hardware="$(arg fake_robotiq)" include_ros2_control="true" com_port="/dev/ttyUSB1">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:robotiq_gripper>
+
 </robot>

@@ -18,6 +18,7 @@ def launch_setup(context, *args, **kwargs):
           PathJoinSubstitution([FindPackageShare("ur_linear_guide"), "urdf", 'linear_ur.urdf.xacro']),
           " fake_guide:='", LaunchConfiguration("fake_guide").perform(context),"'",
           " fake_ur:='", LaunchConfiguration("fake_ur").perform(context),"'",
+          " fake_robotiq:='", LaunchConfiguration("fake_robotiq").perform(context),"'",
       ])
 
   robot_description = {'robot_description': robot_description_content}
@@ -31,7 +32,7 @@ def launch_setup(context, *args, **kwargs):
     parameters=[controllers_config,robot_description],
     output="screen",
     # prefix=['gdb -ex start --args'],
-    # arguments=["--ros-args", "--log-level", "debug"],
+    arguments=["--ros-args", "--log-level", "info"],
     # remappings=[("/controller_manager/robot_description","/robot_description")],
   )
 
@@ -89,6 +90,30 @@ def launch_setup(context, *args, **kwargs):
                "--controller-manager", "/controller_manager", "--inactive"],
     output='screen',
   )
+
+  robotiq_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["robotiq_action_controller", 
+               "--controller-manager", "/controller_manager"],
+    output='screen',
+  )
+
+  robotiq_activation_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["robotiq_activation_controller", 
+               "--controller-manager", "/controller_manager"],
+    output='screen',
+  )
+
+  # robotiq_forward_controller_spawner = Node(
+  #   package="controller_manager",
+  #   executable="spawner",
+  #   arguments=["robotiq_forward_controller", 
+  #              "--controller-manager", "/controller_manager", "--inactive"],
+  #   output='screen',
+  # )
 
   controller_stopper_node = Node(
       package="ur_robot_driver",
@@ -169,6 +194,9 @@ def launch_setup(context, *args, **kwargs):
     ur_on_linear_guide_scaled_controller_spawner,
     linear_guide_scaled_controller_spawner,
     ur_scaled_controller_spawner,
+    robotiq_controller_spawner,
+    robotiq_activation_controller_spawner,
+    # robotiq_forward_controller_spawner,
     #controller_stopper_node
     ur_control_node,
     dashboard_client_node,
@@ -179,6 +207,7 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
   launch_args = []
+  launch_args.append(DeclareLaunchArgument(name="fake_robotiq", default_value="true", description="use fake hardware for the robotiq gripper"))
   launch_args.append(DeclareLaunchArgument(name="fake_guide", default_value="true", description="use fake hardware for the linear guide"))
   launch_args.append(DeclareLaunchArgument(name="fake_ur", default_value="true", description="use fake hardware for the ur"))
   launch_args.append(DeclareLaunchArgument(name="robot_ip", default_value="192.168.1.102", description="robot IP address"))
