@@ -140,9 +140,3 @@ robotiq_action_controller:
 robotiq_activation_controller:
   ros__parameters:
     default: false
-
-
-robotiq_forward_controller:
-  ros__parameters:
-    joint: robotiq_85_left_knuckle_joint
-    interface_names: ['position']

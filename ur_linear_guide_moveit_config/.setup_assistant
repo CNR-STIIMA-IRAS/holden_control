@@ -7,7 +7,7 @@ moveit_setup_assistant_config:
   package_settings:
     author_name: Cesare Tonola
     author_email: cesare.tonola@stiima.cnr.it
-    generated_timestamp: 1731665332
+    generated_timestamp: 1741101011
   control_xacro:
     command:
       - position

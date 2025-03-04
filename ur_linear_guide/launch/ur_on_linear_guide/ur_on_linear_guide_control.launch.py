@@ -107,14 +107,6 @@ def launch_setup(context, *args, **kwargs):
     output='screen',
   )
 
-  # robotiq_forward_controller_spawner = Node(
-  #   package="controller_manager",
-  #   executable="spawner",
-  #   arguments=["robotiq_forward_controller", 
-  #              "--controller-manager", "/controller_manager", "--inactive"],
-  #   output='screen',
-  # )
-
   controller_stopper_node = Node(
       package="ur_robot_driver",
       executable="controller_stopper_node",
