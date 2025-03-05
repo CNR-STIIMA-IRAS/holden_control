@@ -27,6 +27,8 @@ linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: true
+    
 ur_controller:
   ros__parameters:
     joints:
@@ -41,6 +43,8 @@ ur_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: true
+
 ur_on_linear_guide_controller:
   ros__parameters:
     joints:
@@ -56,3 +60,4 @@ ur_on_linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: true  

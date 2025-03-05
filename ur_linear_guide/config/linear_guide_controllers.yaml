@@ -21,6 +21,7 @@ linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: false
 
 linear_guide_scaled_controller:
   ros__parameters:
@@ -34,4 +35,5 @@ linear_guide_scaled_controller:
     open_loop_control: true
     constraints:
       goal_time: 0.0
-    speed_ovr_topics: ["linear_guide_speed_ovr","safe_ovr"]
+    speed_ovr_topics: ["linear_guide_speed_ovr","safe_ovr","speed_ovr"]
+    allow_nonzero_velocity_at_trajectory_end: false

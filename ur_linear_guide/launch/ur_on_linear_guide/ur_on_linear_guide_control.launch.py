@@ -74,7 +74,7 @@ def launch_setup(context, *args, **kwargs):
                "--controller-manager", "/controller_manager"],
     output='screen',
   )
-
+#  "--ros-args", "--log-level", "debug"],  
   linear_guide_scaled_controller_spawner = Node(
     package="controller_manager",
     executable="spawner",
@@ -95,7 +95,7 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["robotiq_action_controller", 
-               "--controller-manager", "/controller_manager"],
+               "--controller-manager", "/controller_manager", "--inactive"],
     output='screen',
   )
 
@@ -103,7 +103,7 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["robotiq_activation_controller", 
-               "--controller-manager", "/controller_manager"],
+               "--controller-manager", "/controller_manager", "--inactive"],
     output='screen',
   )
 

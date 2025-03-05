@@ -42,6 +42,7 @@ linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: false
 
 linear_guide_scaled_controller:
   ros__parameters:
@@ -55,7 +56,8 @@ linear_guide_scaled_controller:
     open_loop_control: true
     constraints:
       goal_time: 0.0
-    speed_ovr_topics: ["linear_guide_speed_ovr","safe_ovr"]
+    speed_ovr_topics: ["linear_guide_speed_ovr","safe_ovr","speed_ovr"]
+    allow_nonzero_velocity_at_trajectory_end: false
 
 ur_controller:
   ros__parameters:
@@ -71,6 +73,7 @@ ur_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: false
 
 ur_scaled_controller:
   ros__parameters:
@@ -89,7 +92,8 @@ ur_scaled_controller:
     open_loop_control: true
     constraints:
       goal_time: 0.0
-    speed_ovr_topics: ["ur_speed_ovr","safe_ovr"]
+    speed_ovr_topics: ["ur_speed_ovr","safe_ovr","speed_ovr"]
+    allow_nonzero_velocity_at_trajectory_end: false
 
 ur_on_linear_guide_controller:
   ros__parameters:
@@ -106,6 +110,7 @@ ur_on_linear_guide_controller:
     state_interfaces:
       - position
       - velocity
+    allow_nonzero_velocity_at_trajectory_end: false
 
 ur_on_linear_guide_scaled_controller:
   ros__parameters:
@@ -125,7 +130,8 @@ ur_on_linear_guide_scaled_controller:
     open_loop_control: true
     constraints:
       goal_time: 0.0
-    speed_ovr_topics: ["ur_on_linear_guide_speed_ovr","safe_ovr"]
+    speed_ovr_topics: ["ur_on_linear_guide_speed_ovr","safe_ovr","speed_ovr"]
+    allow_nonzero_velocity_at_trajectory_end: false
 
 robotiq_action_controller:
   ros__parameters:
