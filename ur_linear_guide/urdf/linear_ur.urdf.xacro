@@ -109,7 +109,7 @@
   
   <!-- robotiq gripper -->
   <xacro:include filename="$(find robotiq_description)/urdf/robotiq_2f_85_macro.urdf.xacro" />
-  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" parent="tool0" use_fake_hardware="$(arg fake_robotiq)" include_ros2_control="true" com_port="/dev/ttyUSB1">
+  <xacro:robotiq_gripper name="RobotiqGripperHardwareInterface" prefix="" parent="tool0" use_fake_hardware="$(arg fake_robotiq)" include_ros2_control="true" com_port="/dev/ttyUSB0">
       <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:robotiq_gripper>
 

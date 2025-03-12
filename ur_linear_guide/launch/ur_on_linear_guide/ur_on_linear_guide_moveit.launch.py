@@ -22,6 +22,7 @@ def launch_setup(context):
   robot_description_args = {
     "fake_guide" : LaunchConfiguration("fake_guide"),
     "fake_ur" : LaunchConfiguration("fake_ur"),
+    "fake_robotiq" : LaunchConfiguration("fake_robotiq")
   }
 
   srdf_path = PathJoinSubstitution([FindPackageShare("ur_on_linear_guide_moveit_config"), "config", "ur_on_linear_guide.srdf"]).perform(context)
@@ -57,5 +58,6 @@ def generate_launch_description():
   launch_args = [
     DeclareLaunchArgument(name="fake_guide", default_value="true", description="use fake hardware for the linear guide"),
     DeclareLaunchArgument(name="fake_ur", default_value="true", description="use fake hardware for the robot"),
+    DeclareLaunchArgument(name="fake_robotiq", default_value="true", description="use fake hardware for the robotiq"),
   ]
   return LaunchDescription(launch_args + [OpaqueFunction(function=launch_setup)])

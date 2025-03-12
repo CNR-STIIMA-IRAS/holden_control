@@ -2,7 +2,7 @@ from launch.launch_description import LaunchDescription
 from launch.actions import RegisterEventHandler, TimerAction, DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, Command, FindExecutable
 
-from launch.event_handlers import OnExecutionComplete
+from launch.event_handlers import OnExecutionComplete, OnProcessExit
 
 from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
@@ -41,6 +41,14 @@ def launch_setup(context, *args, **kwargs):
     executable="robot_state_publisher",
     output="screen",
     parameters=[robot_description]
+  )
+
+  linear_guide_position_forward_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["linear_guide_position_forward_controller", 
+               "--controller-manager", "/controller_manager", "--inactive"],
+    output='screen',
   )
 
   ur_on_linear_guide_controller_spawner = Node(
@@ -95,7 +103,8 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["robotiq_action_controller", 
-               "--controller-manager", "/controller_manager", "--inactive"],
+               "--controller-manager", "/controller_manager"],
+    condition=UnlessCondition(LaunchConfiguration("fake_robotiq")),
     output='screen',
   )
 
@@ -103,7 +112,8 @@ def launch_setup(context, *args, **kwargs):
     package="controller_manager",
     executable="spawner",
     arguments=["robotiq_activation_controller", 
-               "--controller-manager", "/controller_manager", "--inactive"],
+               "--controller-manager", "/controller_manager"],
+    condition=UnlessCondition(LaunchConfiguration("fake_robotiq")),
     output='screen',
   )
 
@@ -180,19 +190,33 @@ def launch_setup(context, *args, **kwargs):
     controller_manager_node,
     joint_state_broadcaster_spawner,
     robot_state_publisher_node,
-    ur_controller_spawner,
-    linear_guide_controller_spawner,
-    ur_on_linear_guide_controller_spawner,
-    ur_on_linear_guide_scaled_controller_spawner,
-    linear_guide_scaled_controller_spawner,
-    ur_scaled_controller_spawner,
     robotiq_controller_spawner,
     robotiq_activation_controller_spawner,
-    # robotiq_forward_controller_spawner,
-    #controller_stopper_node
     ur_control_node,
     dashboard_client_node,
-    urscript_interface
+    urscript_interface,
+    TimerAction(
+      period=15.0,  # delay in seconds  //avoid linear guide to skip to 0 at launch, wait for joint states to be published
+      actions=[
+              linear_guide_controller_spawner,
+              ur_controller_spawner,
+              ur_on_linear_guide_controller_spawner,
+              ur_on_linear_guide_scaled_controller_spawner,
+              linear_guide_scaled_controller_spawner,
+              linear_guide_position_forward_controller_spawner,
+              ur_scaled_controller_spawner
+            ]
+    ),
+    # RegisterEventHandler(
+    #     event_handler=OnProcessExit(
+    #         target_action=joint_state_broadcaster_spawner,
+    #         on_exit=[ur_controller_spawner,
+    #                   linear_guide_controller_spawner,
+    #                   ur_on_linear_guide_controller_spawner,
+    #                   ur_on_linear_guide_scaled_controller_spawner,
+    #                   linear_guide_scaled_controller_spawner,
+    #                   ur_scaled_controller_spawner],
+    #     ))
     ]
   
   return what_to_launch

@@ -33,6 +33,14 @@ controller_manager:
     robotiq_forward_controller:
       type: robotiq_controllers/RobotiqForwardCommandController
 
+    linear_guide_position_forward_controller:
+      type: position_controllers/JointGroupPositionController
+
+linear_guide_position_forward_controller:
+  ros__parameters:
+    joints:
+      - guide_linear_joint
+
 linear_guide_controller:
   ros__parameters:
     joints: 
