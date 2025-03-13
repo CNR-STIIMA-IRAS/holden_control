@@ -8,7 +8,7 @@
     length:=1.56
     min_lim:=0.05
     max_lim:=1.0
-    vel_lim:=0.5
+    vel_lim:=1.0
     ur_type:=ur5
     name:=ur5
     tf_prefix:=''

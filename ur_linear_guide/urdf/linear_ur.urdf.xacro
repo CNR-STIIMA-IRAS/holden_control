@@ -12,7 +12,7 @@
     <xacro:property name="length" value="1.56"/>
     <xacro:property name="min_lim" value="0.0"/>
     <xacro:property name="max_lim" value="1.0"/>
-    <xacro:property name="vel_lim" value="0.5"/>
+    <xacro:property name="vel_lim" value="1.0"/>
 
     <!-- ur -->
     <xacro:property name="ur_type" value="ur5"/>

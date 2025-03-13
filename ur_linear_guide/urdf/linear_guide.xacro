@@ -4,7 +4,7 @@
   length:=1.56
   min_lim:=0.05
   max_lim:=1.0
-  vel_lim:=0.5
+  vel_lim:=1.0
   fake_hardware:=true
 ">
 
