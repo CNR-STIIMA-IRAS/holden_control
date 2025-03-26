@@ -6,7 +6,6 @@ controller_manager:
     linear_guide_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-
     ur_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
@@ -14,10 +13,12 @@ controller_manager:
     ur_on_linear_guide_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
-
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
+    linear_guide_string_velocity_position_controller:
+      type: string_velocity_position_controller/StringVelocityPositionController
+      
 linear_guide_controller:
   ros__parameters:
     joints: 
