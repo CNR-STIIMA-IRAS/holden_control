@@ -51,6 +51,22 @@ def launch_setup(context, *args, **kwargs):
     output='screen',
   )
 
+  linear_guide_string_velocity_position_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["linear_guide_string_velocity_position_controller", 
+               "--controller-manager", "/controller_manager", "--inactive"],
+    output='screen',
+  )
+
+  linear_guide_string_continuous_velocity_position_controller_spawner = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["linear_guide_string_continuous_velocity_position_controller", 
+               "--controller-manager", "/controller_manager", "--inactive"],
+    output='screen',
+  )
+
   ur_on_linear_guide_controller_spawner = Node(
     package="controller_manager",
     executable="spawner",
@@ -163,20 +179,6 @@ def launch_setup(context, *args, **kwargs):
     parameters=[{"robot_ip": LaunchConfiguration("robot_ip")}],
   )
 
-#   tool_communication_node = Node(
-#     package="ur_robot_driver",
-#     condition=IfCondition(use_tool_communication),
-#     executable="tool_communication.py",
-#     name="ur_tool_comm",
-#     output="screen",
-#     parameters=[
-#         {
-#             "robot_ip": robot_ip,
-#             "tcp_port": tool_tcp_port,
-#             "device_name": tool_device_name,
-#         }
-#     ],
-#   )
 
   urscript_interface = Node(
     package="ur_robot_driver",
@@ -204,19 +206,11 @@ def launch_setup(context, *args, **kwargs):
               ur_on_linear_guide_scaled_controller_spawner,
               linear_guide_scaled_controller_spawner,
               linear_guide_position_forward_controller_spawner,
-              ur_scaled_controller_spawner
+              ur_scaled_controller_spawner,
+              linear_guide_string_velocity_position_controller_spawner,
+              linear_guide_string_continuous_velocity_position_controller_spawner
             ]
     ),
-    # RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=joint_state_broadcaster_spawner,
-    #         on_exit=[ur_controller_spawner,
-    #                   linear_guide_controller_spawner,
-    #                   ur_on_linear_guide_controller_spawner,
-    #                   ur_on_linear_guide_scaled_controller_spawner,
-    #                   linear_guide_scaled_controller_spawner,
-    #                   ur_scaled_controller_spawner],
-    #     ))
     ]
   
   return what_to_launch
