@@ -113,4 +113,78 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
   </xacro:robotiq_gripper>
 
+  <!-- obstacles -->
+
+<link name="obstacle_cube">
+  <visual>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.7 0.5 0.5"/>
+    </geometry>
+    <material name="grey">
+      <color rgba="0.5 0.5 0.5 1"/>
+    </material>
+  </visual>
+  <collision>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.7 0.5 0.5"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="obstacle_cube_joint" type="fixed">
+  <parent link="world"/>
+  <child link="obstacle_cube"/>
+  <origin xyz="-0.7 -0.50 -0.2" rpy="0 0 0"/>
+</joint>
+
+<link name="obstacle_pillar">
+  <visual>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.1 0.1 2.0"/>
+    </geometry>
+    <material name="dark_grey">
+      <color rgba="0.2 0.2 0.2 1"/>
+    </material>
+  </visual>
+  <collision>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.1 0.1 2.0"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="obstacle_pillar_joint" type="fixed">
+  <parent link="world"/>
+  <child link="obstacle_pillar"/>
+  <origin xyz="0.80 0.25 0.5" rpy="0 0 0"/>
+</joint>
+
+<link name="obstacle_platform">
+  <visual>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 1.57"/>
+    <geometry>
+      <box size="1.5 0.5 0.1"/>
+    </geometry>
+    <material name="brown">
+      <color rgba="0.55 0.27 0.07 1"/>
+    </material>
+  </visual>
+  <collision>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 1.57"/>
+    <geometry>
+      <box size="1.5 0.5 0.1"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="obstacle_platform_joint" type="fixed">
+  <parent link="world"/>
+  <child link="obstacle_platform"/>
+  <origin xyz="1.5 -0.65 0.0" rpy="0 0 0"/>
+</joint>
+
 </robot>

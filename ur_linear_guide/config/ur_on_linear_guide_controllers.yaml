@@ -47,6 +47,22 @@ linear_guide_position_forward_controller:
     joints:
       - guide_linear_joint
 
+# linear_guide_string_velocity_position_controller:
+#   ros__parameters:
+#     joint_name: "guide_linear_joint"
+#     joint_limits: [0.0,1.0]
+#     velocity_command_topic: "/hand_distance"
+#     speed_mapping:
+#       - left
+#       - "-2.3"
+#       - "1.5" #seconds to reset speed 
+#       - right
+#       - "2.3"
+#       - "1.5" #seconds to reset speed
+#       - down
+#       - "0"
+#       - "0.001" #seconds to reset speed
+#     velocity_threshold: 0.05
 linear_guide_string_velocity_position_controller:
   ros__parameters:
     joint_name: "guide_linear_joint"
@@ -54,10 +70,10 @@ linear_guide_string_velocity_position_controller:
     velocity_command_topic: "/hand_distance"
     speed_mapping:
       - left
-      - "-2.3"
+      - "-0.25"
       - "1.5" #seconds to reset speed 
       - right
-      - "2.3"
+      - "0.25"
       - "1.5" #seconds to reset speed
       - down
       - "0"

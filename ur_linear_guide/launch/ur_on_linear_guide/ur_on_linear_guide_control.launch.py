@@ -120,7 +120,7 @@ def launch_setup(context, *args, **kwargs):
     executable="spawner",
     arguments=["robotiq_action_controller", 
                "--controller-manager", "/controller_manager"],
-    condition=UnlessCondition(LaunchConfiguration("fake_robotiq")),
+    #condition=UnlessCondition(LaunchConfiguration("fake_robotiq")),
     output='screen',
   )
 
@@ -129,7 +129,7 @@ def launch_setup(context, *args, **kwargs):
     executable="spawner",
     arguments=["robotiq_activation_controller", 
                "--controller-manager", "/controller_manager"],
-    condition=UnlessCondition(LaunchConfiguration("fake_robotiq")),
+    #condition=UnlessCondition(LaunchConfiguration("fake_robotiq")),
     output='screen',
   )
 
