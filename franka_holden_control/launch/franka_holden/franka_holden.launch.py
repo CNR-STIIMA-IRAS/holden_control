@@ -3,7 +3,7 @@ import os
 import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription, Shutdown
-from launch.conditions import UnlessCondition
+from launch.conditions import UnlessCondition, IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
@@ -24,8 +24,6 @@ def generate_launch_description():
     robot_ip = LaunchConfiguration('robot_ip')
     use_fake_hardware = LaunchConfiguration('use_fake_hardware')
     namespace = LaunchConfiguration('namespace')
-    fake_sensor_commands = LaunchConfiguration('fake_sensor_commands')
-    db_flag = LaunchConfiguration('db')
 
     declare_robot_ip_arg = DeclareLaunchArgument(
         'robot_ip', default_value='', description='IP address of the robot (empty for fake hardware).'
@@ -110,6 +108,8 @@ def generate_launch_description():
         'publish_geometry_updates': True,
         'publish_state_updates': True,
         'publish_transforms_updates': True,
+        'publish_robot_description': True,
+        'publish_robot_description_semantic': True,
     }
 
     # --- Nodes ---
@@ -173,6 +173,15 @@ def generate_launch_description():
     #         )
     #     )
 
+
+    fake_gripper_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["fr3_gripper", 
+                "--controller-manager", "/controller_manager"],
+        output='screen',
+        condition=IfCondition(use_fake_hardware)
+    )
 
     fr3_arm_controller = Node(
         package="controller_manager",
@@ -242,5 +251,6 @@ def generate_launch_description():
         gripper_launch_file,
         fr3_arm_controller,
         fr3_arm_scaled_controller,
+        fake_gripper_controller,
         joint_state_broadcaster_spawner
     ])
