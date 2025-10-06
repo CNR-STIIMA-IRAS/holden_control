@@ -1,3 +1,13 @@
+planning_plugin: ompl_interface/OMPLPlanner
+request_adapters: >-
+  default_planner_request_adapters/AddTimeOptimalParameterization
+  default_planner_request_adapters/ResolveConstraintFrames
+  default_planner_request_adapters/FixWorkspaceBounds
+  default_planner_request_adapters/FixStartStateBounds
+  default_planner_request_adapters/FixStartStateCollision
+  default_planner_request_adapters/FixStartStatePathConstraints
+default_planner_config: BiTRRT
+
 planner_configs:
   SBLkConfigDefault:
     type: geometric::SBL
@@ -83,7 +93,7 @@ planner_configs:
     max_pts_per_leaf: 6  # max points per leaf in the GNAT. default: 6
     estimated_dimension: 0.0  # estimated dimension of the free space. default: 0.0
     min_valid_path_fraction: 0.2  # Accept partially valid moves above fraction. default: 0.2
-  BiTRRTkConfigDefault:
+  BiTRRT:
     type: geometric::BiTRRT
     range: 0.0  # Max motion added to tree. ==> maxDistance_ default: 0.0, if 0.0, set on setup()
     temp_change_factor: 0.1  # how much to increase or decrease temp. default: 0.1
@@ -123,7 +133,8 @@ planner_configs:
   TrajOptDefault:
     type: geometric::TrajOpt
 
-panda_arm:
+fr3_arm:
+  default_planner_config: BiTRRT
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -140,7 +151,7 @@ panda_arm:
     - BFMTkConfigDefault
     - PDSTkConfigDefault
     - STRIDEkConfigDefault
-    - BiTRRTkConfigDefault
+    - BiTRRT
     - LBTRRTkConfigDefault
     - BiESTkConfigDefault
     - ProjESTkConfigDefault
@@ -149,30 +160,3 @@ panda_arm:
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
     - TrajOptDefault
-panda_arm_hand:
-  planner_configs:
-    - SBLkConfigDefault
-    - ESTkConfigDefault
-    - LBKPIECEkConfigDefault
-    - BKPIECEkConfigDefault
-    - KPIECEkConfigDefault
-    - RRTkConfigDefault
-    - RRTConnectkConfigDefault
-    - RRTstarkConfigDefault
-    - TRRTkConfigDefault
-    - PRMkConfigDefault
-    - PRMstarkConfigDefault
-    - FMTkConfigDefault
-    - BFMTkConfigDefault
-    - PDSTkConfigDefault
-    - STRIDEkConfigDefault
-    - BiTRRTkConfigDefault
-    - LBTRRTkConfigDefault
-    - BiESTkConfigDefault
-    - ProjESTkConfigDefault
-    - LazyPRMkConfigDefault
-    - LazyPRMstarkConfigDefault
-    - SPARSkConfigDefault
-    - SPARStwokConfigDefault
-    - TrajOptDefault
-
