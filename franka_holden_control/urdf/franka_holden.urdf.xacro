@@ -53,7 +53,7 @@
       tcp_rpy="0 0 0"
       safety_distance="0.03"
       with_sc="false"
-      ros2_control="true"
+      ros2_control="false"
       robot_ip="$(arg robot_ip)"
       use_fake_hardware="$(arg use_fake_hardware)"
       fake_sensor_commands="false"
@@ -63,6 +63,19 @@
       description_pkg="franka_description"
       connected_to="">
   </xacro:franka_robot>
+
+  <!-- ros2_control macro -->
+  <xacro:include filename="$(find franka_holden_control)/urdf/franka_arm.ros2_control.xacro"/>
+  <xacro:franka_arm_ros2_control
+      arm_id="fr3"
+      robot_ip="$(arg robot_ip)"
+      use_fake_hardware="$(arg use_fake_hardware)"
+      fake_sensor_commands="false"
+      gazebo="false"
+      hand="true"
+      gazebo_effort="false"
+      arm_prefix=""
+  />
 
   <!-- Posa il robot sopra il tavolo -->
   <joint name="franka_on_table" type="fixed">
