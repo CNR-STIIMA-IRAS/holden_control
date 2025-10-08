@@ -95,6 +95,7 @@ vcs import < deps.repos --recursive
 ## 6. Install ROS Dependencies via rosdep
 Make sure `rosdep` is initialized:
 ```bash
+sudo apt update
 sudo rosdep init   # run only once, skip if already done
 rosdep update
 ```
