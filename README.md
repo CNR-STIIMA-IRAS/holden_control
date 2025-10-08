@@ -73,7 +73,8 @@ cd ~/projects/holden_ws/src
 ## 4. Download the Dependencies File
 Download the `deps.repos` file:
 ```bash
-curl -L -o deps.repos https://raw.githubusercontent.com/CNR-STIIMA-IRAS/holden_control/refs/heads/test_real_franka/deps.repos
+curl -o deps.repos https://raw.githubusercontent.com/CNR-STIIMA-IRAS/holden_control/test_real_franka/deps.repos
+
 ```
 
 ---
@@ -86,7 +87,7 @@ sudo apt install python3-vcstool -y
 
 Import dependencies listed in `deps.repos`:
 ```bash
-vcs import < deps.repos
+vcs import < deps.repos --recursive
 ```
 
 ---
