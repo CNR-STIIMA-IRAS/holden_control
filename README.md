@@ -73,7 +73,7 @@ cd ~/projects/holden_ws/src
 ## 4. Download the Dependencies File
 Download the `deps.repos` file:
 ```bash
-wget https://raw.githubusercontent.com/CNR-STIIMA-IRAS/holden_control/refs/heads/test_real_franka/deps.repos
+curl -L -o deps.repos https://raw.githubusercontent.com/CNR-STIIMA-IRAS/holden_control/refs/heads/test_real_franka/deps.repos
 ```
 
 ---

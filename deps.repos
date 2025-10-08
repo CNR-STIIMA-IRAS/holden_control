@@ -1,19 +1,16 @@
 repositories:
   franka/franka_description:
-    type: git
-    url: https://github.com/frankarobotics/franka_description.git
-    version: 566ba44abc48be2fca16050c406562e22f85793b
-
+      type: git
+      url: https://github.com/frankarobotics/franka_description.git
+      version: 566ba44abc48be2fca16050c406562e22f85793b
   franka/franka_ros2:
     type: git
     url: https://github.com/frankarobotics/franka_ros2.git
     version: humble
-
   franka/libfranka:
     type: git
     url: https://github.com/frankarobotics/libfranka.git
     version: 155ddac80565975b58f53eb2feeb85b07a6b9e13
-
   holden_control:
     type: git
     url: https://github.com/CNR-STIIMA-IRAS/holden_control.git
