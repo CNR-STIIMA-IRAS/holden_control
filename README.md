@@ -73,7 +73,7 @@ cd ~/projects/holden_ws/src
 ## 4. Download the Dependencies File
 Download the `deps.repos` file:
 ```bash
-wget https://github.com/JRL-CARI-CNR-UNIBS/holden_demo/blob/master/deps.repos
+wget https://raw.githubusercontent.com/CNR-STIIMA-IRAS/holden_control/refs/heads/test_real_franka/deps.repos
 ```
 
 ---
@@ -125,38 +125,43 @@ source install/setup.bash
 ```
 <!-- You may want to add this line to your `~/.bashrc` to make it permanent. -->
 
-## 9. Run the demo1
-In the first terminal:
+## 9. Run the demo
+Open a terminal:
+
 ```bash
-ros2 launch ur_linear_guide ur_on_linear_guide.launch.py 
-```
-In another one:
-```bash
-ros2 launch holden_demo bt_topic_trigger.launch.py 
+source /opt/ros/humble/setup.bash
 ```
 
-Then check if it works with a gesture:
+Then: 
+
 ```bash
-ros2 topic  pub /gesture_recognition std_msgs/msg/String "data: 'right'" -1
+ros2 launch franka_holden_control franka_holden.launch.py use_fake_hardware:=false robot_ip:=<insert robot ip> 
 ```
 
-## 10. Run the demo2
-In the first terminal:
+Then, do a little movement of the robot using the MotionPlanning tab and check if the real robot executes it.
+
+If it works, try the gripper.
+Firstly, open another terminal:
+
 ```bash
-ros2 launch ur_linear_guide ur_on_linear_guide.launch.py 
+source /opt/ros/humble/setup.bash
 ```
-In another one:
+Then, if the gripper is closed, type this command to open it:
+
 ```bash
-ros2 control switch_controllers --deactivate ur_on_linear_guide_scaled_controller --activate linear_guide_position_forward_controller
+ros2 action send_goal /fr3_gripper/gripper_cmd control_msgs/action/GripperCommand "command:
+  position: 0.05
+  max_effort: 0.0" 
 ```
 
-Then:
+Otherwise, if it is already open, close it:
+
 ```bash
-cd ~/projects/holden_ws/src/holden_demo/config
-ros2 launch string_velocity_position_converter string_velocity_position.launch.py config_file:=string_velocity_position_converter_config.yaml 
+ros2 action send_goal /fr3_gripper/gripper_cmd control_msgs/action/GripperCommand "command:
+  position: 0.0
+  max_effort: 0.0" 
 ```
 
-Test it:
-```bash
-ros2 topic  pub /gesture_recognition std_msgs/msg/String "data: 'right'" -1
-```
+Hopefully everything worked as expected!
+
+Thank you!
