@@ -121,15 +121,6 @@ def launch_setup(context):
         output='screen',
     )
 
-    fr3_arm_scaled_controller = Node(
-        package="controller_manager",
-        executable="spawner",
-        namespace=namespace,
-        arguments=["fr3_arm_scaled_controller", 
-                "--controller-manager", "/controller_manager"],
-        output='screen',
-    )
-
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -178,7 +169,6 @@ def launch_setup(context):
         gripper_launch_file,
         robot_state_publisher_node, 
         fr3_arm_controller,
-        fr3_arm_scaled_controller,
         fake_gripper_controller,
         joint_state_broadcaster_spawner
     ]

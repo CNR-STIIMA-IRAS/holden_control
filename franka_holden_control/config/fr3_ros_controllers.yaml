@@ -11,9 +11,6 @@ controller_manager:
     franka_robot_state_broadcaster:
       type: franka_robot_state_broadcaster/FrankaRobotStateBroadcaster
 
-    fr3_arm_scaled_controller:
-      type: scaled_fjt_controller/ScaledFjtController
-
     fr3_gripper:
       type: position_controllers/GripperActionController
 
