@@ -128,13 +128,7 @@ source install/setup.bash
 <!-- You may want to add this line to your `~/.bashrc` to make it permanent. -->
 
 ## 9. Run the demo
-Open a terminal:
-
-```bash
-source /opt/ros/humble/setup.bash
-```
-
-Then: 
+In the same terminal:
 
 ```bash
 ros2 launch franka_holden_control franka_holden.launch.py use_fake_hardware:=false robot_ip:=<insert robot ip> 
