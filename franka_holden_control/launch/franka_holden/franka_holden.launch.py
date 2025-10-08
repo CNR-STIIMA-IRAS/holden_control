@@ -117,7 +117,7 @@ def launch_setup(context):
         executable="spawner",
         namespace=namespace,
         arguments=["fr3_arm_controller", 
-                "--controller-manager", "/controller_manager", "--inactive"],
+                "--controller-manager", "/controller_manager"],
         output='screen',
     )
 
