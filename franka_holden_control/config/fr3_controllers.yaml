@@ -6,7 +6,6 @@ trajectory_execution:
 moveit_simple_controller_manager:
   controller_names:
     - fr3_arm_controller
-    - fr3_arm_scaled_controller
 
   fr3_arm_controller:
     action_ns: follow_joint_trajectory
