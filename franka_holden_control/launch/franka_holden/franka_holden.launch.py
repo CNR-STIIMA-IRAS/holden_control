@@ -30,7 +30,7 @@ def launch_setup(context):
     # --- Robot description ---
     srdf_path = PathJoinSubstitution([FindPackageShare(pkg_name), "urdf", "franka_holden.srdf"]).perform(context)
     urdf_path = PathJoinSubstitution([FindPackageShare(pkg_name), "urdf", "franka_holden.urdf.xacro"]).perform(context)
-    urdf_args = {"robot_ip": robot_ip, "fake_use_fake_hardware": use_fake_hardware}
+    urdf_args = {"robot_ip": robot_ip, "use_fake_hardware": use_fake_hardware}
 
     robot_description_content = ParameterValue(
         Command(
