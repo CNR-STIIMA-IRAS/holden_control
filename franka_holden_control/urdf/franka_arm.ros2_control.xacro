@@ -32,6 +32,7 @@
             <param name="robot_ip">${robot_ip}</param>
             <param name="arm_prefix">${arm_prefix}</param>
           </xacro:if>
+
         </hardware>
 
       <!-- Joint position, velocity and effort interfaces -->
