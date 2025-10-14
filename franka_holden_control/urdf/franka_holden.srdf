@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="fr3_on_table">
+<robot name="fr3">
   <!-- Gruppo braccio -->
   <group name="fr3_arm">
     <chain base_link="fr3_link0" tip_link="fr3_link8"/>

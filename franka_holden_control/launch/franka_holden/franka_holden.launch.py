@@ -117,7 +117,7 @@ def launch_setup(context):
         executable="spawner",
         namespace=namespace,
         arguments=["fr3_arm_controller", 
-                "--controller-manager", "/controller_manager", "--inactive"],
+                "--controller-manager", "/controller_manager"],
         output='screen',
     )
 
@@ -126,7 +126,7 @@ def launch_setup(context):
         executable="spawner",
         namespace=namespace,
         arguments=["fr3_arm_scaled_controller", 
-                "--controller-manager", "/controller_manager"],
+                "--controller-manager", "/controller_manager", "--inactive"],
         output='screen',
     )
 
@@ -174,7 +174,7 @@ def launch_setup(context):
         move_group_node,
         rviz_node,
         ros2_control_node,
-        franka_robot_state_broadcaster,
+        # franka_robot_state_broadcaster,
         gripper_launch_file,
         robot_state_publisher_node, 
         fr3_arm_controller,
